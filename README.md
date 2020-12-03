@@ -4,9 +4,7 @@ Shixin Hu
 
 Vaibhav Vishal
 
-Mostafa Radwan
 
-Venkata Guna Teja
 
 
 
