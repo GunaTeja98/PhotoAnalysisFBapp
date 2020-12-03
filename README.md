@@ -1,55 +1,24 @@
-appengine-standard-archetype
-============================
+### 1) Introduction
 
-This is a generated App Engine Standard Java application from the appengine-standard-archetype archetype.
-
-See the [Google App Engine standard environment documentation][ae-docs] for more
-detailed instructions.
-
-[ae-docs]: https://cloud.google.com/appengine/docs/java/
+Name : Facebook Review Guide
+FB Application URL:https://developers.facebook.com/apps/2404782669818429/dashboard/ 
+GAE URl: https://project1-295919.wl.r.appspot.com/
 
 
-* [Java 8](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
-* [Maven](https://maven.apache.org/download.cgi) (at least 3.5)
-* [Google Cloud SDK](https://cloud.google.com/sdk/) (aka gcloud)
+### 2) Description
 
-## Setup
+This Facebook app called “Facebook Photo guide” allows Facebook users to run an analysis on their photos, retrieved from their Facebook account. The Google Vision API is used to detect "labels" on selected photos. Based on those labels, our application will provide a brief analysis report to user, which will give an insight on the likes from his/her followers/friends. A date range selection is also used here which will allow users to select the date range in which the analysis should be done on their photos.
+This application will enable user to take and upload more photos related to the labels detected on maximum liked photos and avoid uploading those which have labels with less/minimum likes. So, the user can post the photos by keeping in mind our app analysis and gain more reach, likes and followers on Facebook.
 
-    gcloud init
-    gcloud auth application-default login
 
-## Maven
-### Running locally
+### 3) Demonstration of Application working
 
-    mvn appengine:run
+### 4) GAE Issues & GAE Datastore
 
-### Deploying
+### 5)
 
-    mvn appengine:deploy
+### 6)
 
-## Testing
+### 7)
 
-    mvn verify
-
-As you add / modify the source code (`src/main/java/...`) it's very useful to add
-[unit testing](https://cloud.google.com/appengine/docs/java/tools/localunittesting)
-to (`src/main/test/...`).  The following resources are quite useful:
-
-* [Junit4](http://junit.org/junit4/)
-* [Mockito](http://mockito.org/)
-* [Truth](http://google.github.io/truth/)
-
-## Updating to latest Artifacts
-
-An easy way to keep your projects up to date is to use the maven [Versions plugin][versions-plugin].
-
-    mvn versions:display-plugin-updates
-    mvn versions:display-dependency-updates
-    mvn versions:use-latest-versions
-
-Note - Be careful when changing `javax.servlet` as App Engine Standard uses 3.1 for Java 8, and 2.5
-for Java 7.
-
-Our usual process is to test, update the versions, then test again before committing back.
-
-[plugin]: http://www.mojohaus.org/versions-maven-plugin/
+### 8)
