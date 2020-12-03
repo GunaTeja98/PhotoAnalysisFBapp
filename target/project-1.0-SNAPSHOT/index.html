@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+    <meta http-equiv="content-type"
+          content="application/xhtml+xml; charset=UTF-8" />
+    <title>Facebook App</title>
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+</head>
+<br>
+<br>
+<div class="container">
+    <div class="fb-login-button" data-size="large" onlogin="checkLoginState();" data-button-type="login_with" data-layout="rounded" data-auto-logout-link="false" data-use-continue-as="true" data-width=""></div>
+    <div id="status">
+    </div>
+    <br>
+    <button class="btn btn-primary" onclick="test();"></button>
+    <br>
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" id="exampleCheck1" onclick="check()">
+        <label class="form-check-label" for="exampleCheck1">I confirm my facebook data will be used in this app. </label>
+    </div>
+    <input type="button" class="btn btn-primary" value="Retrieve Photos" id="b2" disabled="disabled" onclick="getJson();"/>
+    <br>
+    <br>
+
+    <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups" style="display: none;" id="btn" >
+        <div>
+            <input id="dd" type="text" name="daterange" value="10/30/2020 - 11/27/2020" />
+        </div>
+        <br>
+        <div class="btn-group mr-2" role="group" aria-label="First Group">
+            <button  type="button"  id="max" class="btn btn-primary" onclick="maxLike()">Max Liked Photo</button>
+        </div>
+        <div class="btn-group mr-2" role="group" aria-label="Second Group">
+            <button type="button"  id="min" class="btn btn-primary" onclick="minLike()">Min Liked Photo</button>
+        </div>
+    </div>
+
+</div>
+<script src="assets/js/bootstrap.bundle.min.js"></script>
+<script>
+    function test() {
+        FB.api(
+            '/me',
+            'GET',
+            {"fields":"id,albums"},
+            function(response) {
+                console.log(response);
+            }
+        );
+    }
+    function maxLike (){
+        FB.api(
+            '/me',
+            'GET',
+            {"fields":"id"},
+            function(response) {
+                console.log(response.id);
+                console.log($("#dd").val());
+                location.href='/maxPhotos?date='+$("#dd").val()+'&id='+response.id;
+            }
+        );
+
+    }
+    function minLike (){
+        FB.api(
+            '/me',
+            'GET',
+            {"fields":"id"},
+            function(response) {
+                console.log(response.id);
+                console.log($("#dd").val());
+                location.href='/minPhotos?date='+$("#dd").val()+'&id='+response.id;
+            }
+        );
+    }
+    // This is called with the results from from FB.getLoginStatus().
+    function statusChangeCallback(response) {
+        console.log('statusChangeCallback');
+        console.log(response);
+        // The response object is returned with a status field that lets the
+        // app know the current login status of the person.
+        // Full docs on the response object can be found in the documentation
+        // for FB.getLoginStatus().
+        if (response.status === 'connected') {
+            // Logged into your app and Facebook.
+            testAPI();
+        } else if (response.status === 'not_authorized') {
+            // The person is logged into Facebook, but not your app.
+            document.getElementById('status').innerHTML = 'Please log ' +'into this app.';
+        } else {
+            // The person is not logged into Facebook, so we're not sure if
+            // they are logged into this app or not.
+            document.getElementById('status').innerHTML = 'Please log ' + 'into Facebook.';
+        }
+    }
+    // This function is called when someone finishes with the Login
+    // Button. See the onlogin handler attached to it in the sample
+    // code below.
+    function checkLoginState() {
+        FB.getLoginStatus(function(response) {
+            statusChangeCallback(response);
+        });
+    }
+    window.fbAsyncInit = function() {
+        FB.init({
+            appId : '504073957167359',
+            cookie : true, // enable cookies to allow the server to access
+            // the session
+            xfbml : true, // parse social plugins on this page
+            version : 'v9.0' // use version 4.0
+        });
+
+        FB.getLoginStatus(function(response) {
+            statusChangeCallback(response);
+        });
+    };
+    // Load the SDK asynchronously
+    (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v9.0&appId=504073957167359";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+    // Here we run a very simple test of the Graph API after login is
+    // successful. See statusChangeCallback() for when this call is made.
+    function testAPI() {
+        console.log('Welcome! Fetching your information.... ');
+        FB.api('/me', function(response) {
+            console.log('Successful login for: ' + response.name);
+            document.getElementById('status').innerHTML ='Thanks for logging in, ' + response.name + '!';
+        }, {scope: 'email,user_likes,user_photos,user_posts'});
+    }
+
+
+    // Here we run a very simple test of the Graph API after login is
+    // successful to post a message to the user me. See statusChangeCallback() for when this call is made.
+    function testMessageCreate() {
+        console.log('Posting a message to user feed.... ');
+        //first must ask for permission to post and then will have call back function defined right inline code
+        // to post the message.
+        FB.login(function(){
+            FB.api(
+                '/me',
+                'GET',
+                {"fields":"id,name"},
+                function(response) {
+                    // Insert your code here
+                }
+            );
+        });
+    }
+    function getJson() {
+        FB.api(
+            '/me',
+            'GET',
+            {"fields":"albums{photos{likes.summary(true),created_time,images}},id  "},
+            function(response) {
+                // Insert your code here
+                console.log(response);
+                $.ajax({
+
+                    url:'/getTweets',
+
+                    type:'POST',
+
+                    dataType:'json',
+
+                    contentType:'application/json;charset=UTF-8',
+
+                    data:JSON.stringify(response),
+
+                    success:function(response, status){
+
+                    },
+                    complete:function(){
+                        console.log(response);
+                        alert("Fetch data successfully!");
+                        var btn_hid = document.getElementById("btn");
+                        btn_hid.style.display="block";
+                        // var max_btn = document.getElementById("max");
+                        // var min_btn = document.getElementById("min");
+                        // max_btn.style.display="block";
+                        // min_btn.style.display="block";
+                    }
+
+                });
+
+            }
+        );
+
+    }
+
+    function check(){
+        //判断checkbox有没有被选中
+        if(document.getElementById("exampleCheck1").checked==true)
+        {
+            document.getElementById("b2").disabled="";//给BUTTON按钮的disabled属性赋值
+        }else{
+            document.getElementById("b2").disabled="disabled";
+        }
+    }
+
+    $(function() {
+        $('input[name="daterange"]').daterangepicker({
+            opens: 'left'
+        }, function(start, end, label) {
+            console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+        });
+    });
+    // var b =  document.getElementById("exampleCheck1");
+    // var b2 = document.getElementById("b2");
+    // var max_btn = document.getElementById("max");
+    // var min_btn = document.getElementById("min");
+    // b.onclick = function(){
+    //     b2.disabled = false;
+    //
+    // }
+    // b2.onclick = function(){
+    //
+    //     max_btn.style.display="block";
+    //     min_btn.style.display="block";
+    // }
+
+</script>
+
+</html>

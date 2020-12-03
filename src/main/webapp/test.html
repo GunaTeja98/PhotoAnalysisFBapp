@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+</head>
+<body>
+<style>
+
+    .masonryblocks img{
+        cursor: pointer;
+        transition: all 0.6s;
+        /*border-radius: 50%;*/
+        width: 100%;
+    }
+    .masonryblocks img:hover{
+        transform: scale(1.1);
+    }
+</style>
+    <div class="container">
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input select" id="exampleCheck1" onclick="check()">
+            <label class="form-check-label" for="exampleCheck1">I confirm my facebook data will be used in this app. </label>
+        </div>
+
+        <input type="button" class="btn btn-primary" value="Retrieve Photos" disabled="disabled" id="b2" />
+        <br>
+        <input type="text" name="daterange" value="10/30/2020 - 11/27/2020" />
+
+        <p>Based on your analysis, you should take more photos which have
+            <span class="text-primary">aaa</span>
+            in them.
+        </p>
+        <p>
+            This will help you get more likes on photos uploaded and eventually
+            get more reach in social network.
+        </p>
+        <br>
+        <input name="check" id="ch" type="checkbox" onclick="check()"/>
+        <input type="button" value="select" id="xz" disabled="disabled"/>
+    </div>
+
+</body>
+<script>
+
+    function check(){
+        //判断checkbox有没有bai被选中
+        if(document.getElementById("exampleCheck1").checked==true)
+        {
+            document.getElementById("b2").disabled="";//给BUTTON按钮的disabled属性赋值
+        }else{
+            document.getElementById("b2").disabled="disabled";
+        }
+    }
+    $(function() {
+        $('input[name="daterange"]').daterangepicker({
+            opens: 'left'
+        }, function(start, end, label) {
+            console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+        });
+    });
+
+</script>
+</html>
